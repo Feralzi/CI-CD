@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - main
+  
+  workflow_dispatch:
     
 jobs:
   createinfra:
@@ -39,5 +41,5 @@ jobs:
 
     - name: terraform apply
       id: apply
-      run: terraform apply
+      run: terraform apply --auto-approve
       working-directory: terraform
