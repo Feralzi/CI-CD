@@ -24,4 +24,4 @@ jobs:
       working-directory: docker
     
     - name: Push Docker images to DockerHub
-      run: docker push "${{ secrets.DOCKERHUB_USERNAME }}/myimage:latest" .
+      run: docker push "${{ secrets.DOCKERHUB_USERNAME }}/myimage:latest"
