@@ -4,6 +4,17 @@ resource "aws_instance" "tf_ec2" {
   instance_type = "t2.micro"
   key_name = "VM1-key"
 
+  user_data = <<-EOF
+    #!/bin/bash
+    sudo yum update -y
+    sudo yum install -y docker
+    sudo systemctl start docker
+    sudo systemctl enable docker
+    sudo usermod -aG docker ec2-user
+    EOF
+
+  user_data_replace_on_change = true
+
   tags = {
     Name = "CRM-instance"
   }

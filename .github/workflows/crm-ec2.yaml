@@ -40,18 +40,3 @@ jobs:
         id: apply
         run: terraform apply --auto-approve
         working-directory: crm_server/ec2_terraform
-    
-  EC2-Deploy-Docker:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy to EC2 instance
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.EC2_PRIVATE_KEY }}
-          script: | 
-            sudo yum install docker -y
-            sudo systemctl enable docker
-            sudo systemctl start docker
-            sudo usermod -a -G docker ec2-user
