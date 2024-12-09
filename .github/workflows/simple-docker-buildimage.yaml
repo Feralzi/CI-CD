@@ -1,9 +1,10 @@
 name: build and push docker image
 
 on:
-  push:
-    branches:
-      - main
+  workflow_run:
+    workflows: ["Terraform Create"]
+    types:
+      - completed
 
 jobs:
   build_and_push:

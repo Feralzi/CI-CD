@@ -1,0 +1,32 @@
+name: Destroy EC2
+
+on:
+  workflow_dispatch:
+    
+jobs:
+  create_EC2:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: install terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Configure AWS creds
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+    
+      - name: terraform init
+        run: terraform init
+        id: init
+        working-directory: ec2_terraform
+
+      - name: terraform destroy
+        id: destroy
+        run: terraform destroy --auto-approve
+        working-directory: ec2_terraform
