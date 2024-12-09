@@ -11,6 +11,7 @@ resource "aws_instance" "tf_ec2" {
     sudo systemctl start docker
     sudo systemctl enable docker
     sudo usermod -aG docker ec2-user
+    sudo docker run --name my-crm -p 8080:80 --link mysql:mysql -d espocrm/espocrm
     EOF
 
   user_data_replace_on_change = true
