@@ -1,4 +1,4 @@
-name: Create EC2
+name: Create CRM EC2
 
 on:
   workflow_dispatch:
@@ -24,19 +24,38 @@ jobs:
       - name: terraform init
         run: terraform init
         id: init
-        working-directory: ec2_terraform
+        working-directory: crm_server/ec2_terraform
       
       - name: terraform validate
         run: terraform validate
         id: validate
-        working-directory: ec2_terraform
+        working-directory: crm_server/ec2_terraform
 
       - name: terraform fmt
         run: terraform fmt
         id: fmt
-        working-directory: ec2_terraform
+        working-directory: crm_server/ec2_terraform
 
       - name: terraform apply
         id: apply
         run: terraform apply --auto-approve
-        working-directory: ec2_terraform
+        working-directory: crm_server/ec2_terraform
+    
+  EC2-Deploy-Docker:
+    runs-on: ubuntu-latest
+    steps:
+      - id: deploy
+        uses: bitovi/github-actions-deploy-docker-to-ec2@v1.0.1
+        with:
+          aws_access_key_id: ${{ secrets.ACCESS_KEY }}
+          aws_secret_access_key: ${{ secrets.SECRET_ACCESS_KEY }}
+          aws_default_region: us-east-2
+
+          aws_elb_app_port: 8080
+
+      - name: Deploy to EC2 instance
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_PRIVATE_KEY }}

@@ -1,4 +1,4 @@
-name: Destroy EC2
+name: Destroy CRM EC2
 
 on:
   workflow_dispatch:
