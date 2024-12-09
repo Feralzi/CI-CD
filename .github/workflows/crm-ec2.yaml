@@ -44,18 +44,14 @@ jobs:
   EC2-Deploy-Docker:
     runs-on: ubuntu-latest
     steps:
-      - id: deploy
-        uses: bitovi/github-actions-deploy-docker-to-ec2@v1.0.1
-        with:
-          aws_access_key_id: ${{ secrets.ACCESS_KEY }}
-          aws_secret_access_key: ${{ secrets.SECRET_ACCESS_KEY }}
-          aws_default_region: us-east-2
-
-          aws_elb_app_port: 8080
-
       - name: Deploy to EC2 instance
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_PRIVATE_KEY }}
+          script: | 
+            sudo yum install docker -y
+            sudo systemctl enable docker
+            sudo systemctl start docker
+            sudo usermod -a -G docker ec2-user
