@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     
 jobs:
-  create_EC2:
+  Destroy_EC2:
     runs-on: ubuntu-latest
     
     steps:
@@ -24,9 +24,9 @@ jobs:
       - name: terraform init
         run: terraform init
         id: init
-        working-directory: ec2_terraform
+        working-directory: crm_server/ec2_terraform
 
       - name: terraform destroy
         id: destroy
         run: terraform destroy --auto-approve
-        working-directory: ec2_terraform
+        working-directory: crm_server/ec2_terraform
