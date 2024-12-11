@@ -33,7 +33,7 @@ jobs:
 
       - name: terraform apply
         id: apply
-        run: terraform apply
+        run: terraform apply --auto-approve
         working-directory: ansible_server/ec2_terraform
       
     
