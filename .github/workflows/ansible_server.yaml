@@ -1,0 +1,39 @@
+name: Creating an Ansible Server
+
+on:
+  workflow_dispatch:
+    
+jobs:
+  AnsibleCreate:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: install terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Configure AWS creds
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+
+      - name: terraform init
+        id: init
+        run: terraform init
+        working-directory: ansible_server/ec2_terraform
+
+      - name: terraform validate
+        id: validate
+        run: terraform validate
+        working-directory: ansible_server/ec2_terraform
+
+      - name: terraform apply
+        id: apply
+        run: terraform apply
+        working-directory: ansible_server/ec2_terraform
+      
+    
