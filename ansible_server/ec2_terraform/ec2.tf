@@ -7,12 +7,9 @@ resource "aws_instance" "tf_ec2" {
   user_data = <<-EOF
     #!/bin/bash
     sudo yum update -y
-    sudo yum install -y docker
-    sudo systemctl start docker
-    sudo systemctl enable docker
-    sudo usermod -aG docker ec2-user
-    sudo docker run --name mysql -e MYSQL_ROOT_PASSWORD=password -d mysql:8
-    sudo docker run --name my-crm -p 8080:80 --link mysql:mysql -d espocrm/espocrm
+    sudo yum install ansible
+    sudo systemctl start ansible
+    sudo systemctl enable ansible
     EOF
 
   user_data_replace_on_change = true
